@@ -3,6 +3,7 @@
 // need to
 
 // INSERT KERNEL(S) HERE
+#define BLOCK_SIZE 512
 __global__ void reduction(float *out, float *in, unsigned size)
 {
     /********************************************************************
@@ -23,7 +24,7 @@ __global__ void reduction(float *out, float *in, unsigned size)
 	sdata[tid] = in[i];
 	_syncthreads();
 	
-	for( unsigned s = 1; s < blocDim.x; s *=2)
+	for( unsigned s = 1; s < blockDim.x; s *=2)
 	{
 		if(tid%(2*s) == 0)
 		{
@@ -32,6 +33,6 @@ __global__ void reduction(float *out, float *in, unsigned size)
 		_synchthreads();
 	}
 	
-	if(tid == 0){ output[blockIdx.x] = sdata[0];}
+	if(tid == 0){ out[blockIdx.x] = sdata[0];}
 
 }
