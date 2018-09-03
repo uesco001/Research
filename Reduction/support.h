@@ -38,4 +38,3 @@ float elapsedTime(Timer timer);
 #endif
 
 #endif
-i

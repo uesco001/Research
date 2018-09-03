@@ -3,7 +3,6 @@
 // need to
 
 // INSERT KERNEL(S) HERE
-#define BLOCK_SIZE 512
 __global__ void reduction(float *out, float *in, unsigned size)
 {
     /********************************************************************
@@ -15,13 +14,13 @@ __global__ void reduction(float *out, float *in, unsigned size)
     // INSERT KERNEL CODE HERE
 
 
-	extern__shared__ int sdata[];
+	float sdata[];
 	unsigned i = threadIdx.x + blockIdx.x * blockDim.x;
 	// stride is total number of threadsi
 	unsigned tid = threadIdx.x;
 	// All threads handle blockDim.x * gridDim.x
 	// consecutive elements
-	sdata[tid] = g_idata[i];
+	sdata[tid] = in[i];
 	_syncthreads();
 	
 	for( unsigned s = 1; s < blocDim.x; s *=2)
